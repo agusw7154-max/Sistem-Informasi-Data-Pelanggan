@@ -34,7 +34,7 @@ class ProdukController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'ID_PRODUK' => 'required|string|max:5',
+            'ID_PRODUK' => 'nullable|string|max:5',
             'ID_ADMIN' => 'required|string|max:5',
             'ID_PELANGGAN' => 'nullable|string|max:5',
             'NAMA_PRODUK' => 'required|string|max:100',

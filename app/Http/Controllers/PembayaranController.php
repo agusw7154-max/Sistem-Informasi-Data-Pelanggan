@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pembayaran;
+use App\Models\Pelanggan;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 
@@ -36,13 +38,15 @@ class PembayaranController extends Controller
 
     public function create()
     {
-        return view('pembayaran.create');
+        $pelanggans = Pelanggan::all();
+        $admins = Admin::all();
+        return view('pembayaran.create', compact('pelanggans', 'admins'));
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'ID_PEMBAYARAN' => 'required|string|max:5',
+            'ID_PEMBAYARAN' => 'nullable|string|max:5',
             'ID_PELANGGAN' => 'required|string|max:5',
             'ID_ADMIN' => 'required|string|max:5',
             'TANGGAL_BAYAR' => 'nullable|date',

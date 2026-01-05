@@ -36,7 +36,7 @@ class PelangganController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'ID_PELANGGAN' => 'required|string|max:5',
+            'ID_PELANGGAN' => 'nullable|string|max:5',
             'NAMA_PELANGGAN' => 'required|string|max:100',
             'ALAMAT' => 'nullable|string',
             'NO_TELEPON' => 'nullable|string|max:16',

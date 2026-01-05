@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Transaksi;
 use App\Models\DetailTransaksi;
 use App\Models\Produk;
+use App\Models\Admin;
+use App\Models\Pelanggan;
+use App\Models\Pembayaran;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
@@ -39,13 +42,16 @@ class TransaksiController extends Controller
     public function create()
     {
         $products = Produk::all();
-        return view('transaksi.create', compact('products'));
+        $admins = Admin::all();
+        $pelanggans = Pelanggan::all();
+        $pembayarans = Pembayaran::all();
+        return view('transaksi.create', compact('products', 'admins', 'pelanggans', 'pembayarans'));
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'ID_TRANSAKSI' => 'required|string|max:5',
+            'ID_TRANSAKSI' => 'nullable|string|max:5',
             'ID_ADMIN' => 'required|string|max:5',
             'ID_PELANGGAN' => 'required|string|max:5',
             'ID_PEMBAYARAN' => 'nullable|string|max:5',
@@ -56,7 +62,7 @@ class TransaksiController extends Controller
         ]);
 
         DB::transaction(function() use ($data, $request) {
-            Transaksi::create($data);
+            $transaksi = Transaksi::create($data);
 
             // insert detail rows if provided
             $details = $request->input('details', []);
@@ -64,7 +70,7 @@ class TransaksiController extends Controller
                 if (empty($row['ID_PRODUK']) || empty($row['JUMLAH'])) continue;
                 DetailTransaksi::create([
                     'ID_PRODUK' => $row['ID_PRODUK'],
-                    'ID_TRANSAKSI' => $data['ID_TRANSAKSI'],
+                    'ID_TRANSAKSI' => $transaksi->ID_TRANSAKSI,
                     'JUMLAH' => (int) $row['JUMLAH'],
                 ]);
             }

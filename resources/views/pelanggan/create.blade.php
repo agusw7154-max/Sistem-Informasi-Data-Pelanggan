@@ -9,7 +9,8 @@
     @csrf
     <div class="mb-3">
         <label class="form-label">ID Pelanggan</label>
-        <input class="form-control" name="ID_PELANGGAN" value="{{ old('ID_PELANGGAN') }}" required>
+        <input class="form-control" name="ID_PELANGGAN" value="{{ old('ID_PELANGGAN') }}" placeholder="Auto-generated" readonly>
+        <small class="text-muted">ID akan digenerate otomatis</small>
     </div>
     <div class="mb-3">
         <label class="form-label">Nama</label>

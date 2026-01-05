@@ -9,19 +9,41 @@
     @csrf
     <div class="mb-3">
         <label class="form-label">ID Transaksi</label>
-        <input class="form-control" name="ID_TRANSAKSI" value="{{ old('ID_TRANSAKSI') }}" required>
+        <input class="form-control" name="ID_TRANSAKSI" value="{{ old('ID_TRANSAKSI') }}" placeholder="Auto-generated" readonly>
+        <small class="text-muted">ID akan digenerate otomatis</small>
     </div>
     <div class="mb-3">
-        <label class="form-label">ID Admin</label>
-        <input class="form-control" name="ID_ADMIN" value="{{ old('ID_ADMIN') }}" required>
+        <label class="form-label">Admin <span class="text-danger">*</span></label>
+        <select class="form-select" name="ID_ADMIN" required>
+            <option value="">-- Pilih Admin --</option>
+            @foreach($admins as $admin)
+                <option value="{{ $admin->ID_ADMIN }}" {{ old('ID_ADMIN') == $admin->ID_ADMIN ? 'selected' : '' }}>
+                    {{ $admin->ID_ADMIN }} - {{ $admin->NAMA_ADMIN }}
+                </option>
+            @endforeach
+        </select>
     </div>
     <div class="mb-3">
-        <label class="form-label">ID Pelanggan</label>
-        <input class="form-control" name="ID_PELANGGAN" value="{{ old('ID_PELANGGAN') }}" required>
+        <label class="form-label">Pelanggan <span class="text-danger">*</span></label>
+        <select class="form-select" name="ID_PELANGGAN" required>
+            <option value="">-- Pilih Pelanggan --</option>
+            @foreach($pelanggans as $pelanggan)
+                <option value="{{ $pelanggan->ID_PELANGGAN }}" {{ old('ID_PELANGGAN') == $pelanggan->ID_PELANGGAN ? 'selected' : '' }}>
+                    {{ $pelanggan->ID_PELANGGAN }} - {{ $pelanggan->NAMA_PELANGGAN }}
+                </option>
+            @endforeach
+        </select>
     </div>
     <div class="mb-3">
-        <label class="form-label">ID Pembayaran</label>
-        <input class="form-control" name="ID_PEMBAYARAN" value="{{ old('ID_PEMBAYARAN') }}">
+        <label class="form-label">Pembayaran</label>
+        <select class="form-select" name="ID_PEMBAYARAN">
+            <option value="">-- Pilih Pembayaran (Opsional) --</option>
+            @foreach($pembayarans as $pembayaran)
+                <option value="{{ $pembayaran->ID_PEMBAYARAN }}" {{ old('ID_PEMBAYARAN') == $pembayaran->ID_PEMBAYARAN ? 'selected' : '' }}>
+                    {{ $pembayaran->ID_PEMBAYARAN }} - {{ $pembayaran->METODE_PEMBAYARAN ?? 'N/A' }}
+                </option>
+            @endforeach
+        </select>
     </div>
     <div class="mb-3">
         <label class="form-label">Tanggal Transaksi</label>
@@ -108,5 +130,4 @@
     // add one empty row by default
     addRow();
 </script>
-</form>
 @endsection
